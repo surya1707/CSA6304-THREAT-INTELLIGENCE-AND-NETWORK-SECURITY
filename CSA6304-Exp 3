@@ -1,0 +1,36 @@
+policy = input("Enter security policy text: ").lower()
+
+requirements = {
+    "Scope": ["scope", "applies to"],
+    "Roles and Responsibilities": [
+        "roles", "responsibilities"
+    ],
+    "Enforcement": ["enforcement", "violation"],
+    "Review Cycle": ["review", "annually"],
+    "Approval Authority": [
+        "approved by", "approval authority"
+    ]
+}
+
+missing = []
+
+for element, keywords in requirements.items():
+    found = False
+
+    for word in keywords:
+        if word in policy:
+            found = True
+            break
+
+    if not found:
+        missing.append(element)
+
+print("\nSecurity Policy Assessment:")
+
+if len(missing) > 0:
+    print("Missing governance elements:")
+
+    for item in missing:
+        print("-", item)
+else:
+    print("All required governance elements are present.")

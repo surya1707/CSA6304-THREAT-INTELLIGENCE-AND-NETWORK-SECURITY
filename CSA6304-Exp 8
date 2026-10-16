@@ -1,0 +1,44 @@
+segments = {
+    "Guest": ["User-PC"],
+    "Corporate": ["Office-PC"],
+    "Sensitive": ["Database-Server"]
+}
+
+allowed_connections = [
+    ("Corporate", "Sensitive")
+]
+
+
+def get_segment(device):
+    for segment, devices in segments.items():
+        if device in devices:
+            return segment
+
+    return None
+
+
+def check_access(source, destination):
+    src_segment = get_segment(source)
+    dst_segment = get_segment(destination)
+
+    if src_segment is None or dst_segment is None:
+        print("Access DENIED: Unknown device")
+
+    elif src_segment == dst_segment:
+        print("Access ALLOWED: Same network segment")
+
+    elif (src_segment, dst_segment) in allowed_connections:
+        print("Access ALLOWED: Explicit security rule")
+
+    else:
+        print("Access DENIED: Segmentation blocks access")
+
+
+print("Test 1: Guest user to database")
+check_access("User-PC", "Database-Server")
+
+print("\nTest 2: Corporate PC to database")
+check_access("Office-PC", "Database-Server")
+
+print("\nTest 3: Guest user to office PC")
+check_access("User-PC", "Office-PC")

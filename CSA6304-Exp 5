@@ -1,0 +1,40 @@
+def classify_report(description, audience):
+    text = (description + " " + audience).lower()
+
+    strategic = [
+        "business risk", "executive",
+        "long-term", "senior management",
+        "business impact"
+    ]
+
+    tactical = [
+        "attack technique", "mitre",
+        "tactics", "procedures", "ttp"
+    ]
+
+    operational = [
+        "active attack", "incident",
+        "attacker", "campaign",
+        "immediate response"
+    ]
+
+    scores = {
+        "Strategic": sum(word in text for word in strategic),
+        "Tactical": sum(word in text for word in tactical),
+        "Operational": sum(word in text for word in operational)
+    }
+
+    best = max(scores, key=scores.get)
+
+    if scores[best] == 0:
+        return "Insufficient information to classify."
+
+    return best
+
+
+description = input("Enter report description: ")
+audience = input("Enter intended audience: ")
+
+result = classify_report(description, audience)
+
+print("Threat Intelligence Type:", result)

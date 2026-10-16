@@ -1,0 +1,34 @@
+def encrypt(message, key):
+    encrypted = []
+
+    for i in range(len(message)):
+        value = ord(message[i]) ^ ord(key[i % len(key)])
+        encrypted.append(value)
+
+    return encrypted
+
+
+def decrypt(data, key):
+    message = ""
+
+    for i in range(len(data)):
+        value = data[i] ^ ord(key[i % len(key)])
+        message += chr(value)
+
+    return message
+
+
+message = input("Enter message: ")
+key = input("Enter shared key: ")
+
+if key == "":
+    print("Key cannot be empty.")
+else:
+    encrypted_data = encrypt(message, key)
+
+    print("Original message:", message)
+    print("Captured encrypted data:", encrypted_data)
+
+    decrypted_message = decrypt(encrypted_data, key)
+
+    print("Decrypted message:", decrypted_message)
